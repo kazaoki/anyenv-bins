@@ -34,9 +34,8 @@ RUN git clone https://github.com/riywo/anyenv ~/.anyenv
 RUN echo 'export PATH="$HOME/.anyenv/bin:$PATH"' >> ~/.bashrc
 RUN echo 'eval "$(anyenv init -)"' >> ~/.bashrc
 RUN . ~/.bashrc && anyenv install phpenv
-RUN . ~/.bashrc && phpenv install $INSTALL_PHP_VERSION
+RUN . ~/.bashrc && CONFIGURE_OPTS="--with-apxs2=/usr/bin/apxs" phpenv install $INSTALL_PHP_VERSION
 
 # FROM centos:7
 FROM busybox
 COPY --from=0 /root/.anyenv/envs/phpenv/versions/$INSTALL_PHP_VERSION /opt/phpenv/versions/$INSTALL_PHP_VERSION
-RUN echo 'done'
