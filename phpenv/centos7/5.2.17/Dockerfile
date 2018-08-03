@@ -2,6 +2,7 @@ FROM centos:7
 
 ENV INSTALL_PHP_VERSION="5.2.17"
 
+# -- packages setup
 RUN yum install -y epel-release
 RUN yum update -y
 RUN yum install -y \
@@ -31,11 +32,18 @@ RUN yum install -y \
         libsql \
         httpd-devel \
         mariadb-devel
+
+# -- phpenv setup
 RUN git clone https://github.com/riywo/anyenv ~/.anyenv
 RUN echo 'export PATH="$HOME/.anyenv/bin:$PATH"' >> ~/.bashrc
 RUN echo 'eval "$(anyenv init -)"' >> ~/.bashrc
 RUN . ~/.bashrc && anyenv install phpenv
 RUN . ~/.bashrc && CONFIGURE_OPTS="--with-apxs2=/usr/bin/apxs" phpenv install $INSTALL_PHP_VERSION
 
+# -- copy httpd module
+RUN mkdir /root/.anyenv/envs/phpenv/versions/$INSTALL_PHP_VERSION/httpd_modules
+RUN \cp -f /etc/httpd/modules/libphp*.so /root/.anyenv/envs/phpenv/versions/$INSTALL_PHP_VERSION/httpd_modules
+
+# -- staging
 FROM busybox
 VOLUME /root/.anyenv/envs/phpenv/versions/$INSTALL_PHP_VERSION
