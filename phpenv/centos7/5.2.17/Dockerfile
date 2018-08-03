@@ -36,6 +36,5 @@ RUN echo 'eval "$(anyenv init -)"' >> ~/.bashrc
 RUN . ~/.bashrc && anyenv install phpenv
 RUN . ~/.bashrc && CONFIGURE_OPTS="--with-apxs2=/usr/bin/apxs" phpenv install $INSTALL_PHP_VERSION
 
-# FROM centos:7
 FROM busybox
-COPY --from=0 /root/.anyenv/envs/phpenv/versions/$INSTALL_PHP_VERSION /opt/phpenv/versions/$INSTALL_PHP_VERSION
+COPY --from=0 /root/.anyenv/envs/phpenv/versions/$INSTALL_PHP_VERSION /anyenv/phpenv/versions/$INSTALL_PHP_VERSION
