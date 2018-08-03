@@ -38,4 +38,4 @@ RUN . ~/.bashrc && anyenv install phpenv
 RUN . ~/.bashrc && CONFIGURE_OPTS="--with-apxs2=/usr/bin/apxs" phpenv install $INSTALL_PHP_VERSION
 
 FROM busybox
-COPY --from=0 /root/.anyenv/envs/phpenv/versions/$INSTALL_PHP_VERSION /anyenv/phpenv/versions/$INSTALL_PHP_VERSION
+VOLUME /root/.anyenv/envs/phpenv/versions/$INSTALL_PHP_VERSION
