@@ -46,4 +46,5 @@ RUN \cp -f /etc/httpd/modules/libphp*.so /root/.anyenv/envs/phpenv/versions/$INS
 
 # -- staging
 FROM busybox
+COPY --from=0 /root/.anyenv/envs/phpenv/versions/$INSTALL_PHP_VERSION /root/.anyenv/envs/phpenv/versions/$INSTALL_PHP_VERSION
 VOLUME /root/.anyenv/envs/phpenv/versions/$INSTALL_PHP_VERSION
