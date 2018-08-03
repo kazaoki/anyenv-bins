@@ -29,6 +29,7 @@ RUN yum install -y \
         bison \
         lemon \
         libsql \
+        httpd-devel \
         mariadb-devel
 RUN git clone https://github.com/riywo/anyenv ~/.anyenv
 RUN echo 'export PATH="$HOME/.anyenv/bin:$PATH"' >> ~/.bashrc
