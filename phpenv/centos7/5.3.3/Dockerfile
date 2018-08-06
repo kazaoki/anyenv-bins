@@ -31,14 +31,15 @@ RUN yum install -y \
         lemon \
         libsql \
         httpd-devel \
-        mariadb-devel
+        mariadb-devel \
+        postgresql-devel
 
 # -- phpenv setup
 RUN git clone https://github.com/riywo/anyenv ~/.anyenv
 RUN echo 'export PATH="$HOME/.anyenv/bin:$PATH"' >> ~/.bashrc
 RUN echo 'eval "$(anyenv init -)"' >> ~/.bashrc
 RUN . ~/.bashrc && anyenv install phpenv
-RUN . ~/.bashrc && CONFIGURE_OPTS="--with-apxs2=/usr/bin/apxs --disable-fpm" phpenv install -v $INSTALL_PHP_VERSION
+RUN . ~/.bashrc && CONFIGURE_OPTS="--with-apxs2=/usr/bin/apxs --disable-fpm --with-pdo-pgsql --with-pgsql" phpenv install -v $INSTALL_PHP_VERSION
 
 # -- copy httpd module
 RUN mkdir /root/.anyenv/envs/phpenv/versions/$INSTALL_PHP_VERSION/httpd_modules

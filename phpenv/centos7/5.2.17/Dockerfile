@@ -31,7 +31,8 @@ RUN yum install -y \
         lemon \
         libsql \
         httpd-devel \
-        mariadb-devel
+        mariadb-devel \
+        postgresql-devel
 
 # -- phpenv setup
 RUN git clone https://github.com/riywo/anyenv ~/.anyenv
@@ -50,7 +51,7 @@ RUN sed -i 's/AP_DECLARE_DATA extern unixd_config_rec unixd_config;/AP_DECLARE_D
 RUN sed -i 's/unixd_config.user_name, unixd_config.user_id, unixd_config.group_id);/ap_unixd_config.user_name, ap_unixd_config.user_id, ap_unixd_config.group_id);/' /tmp/php-build/source/5.2.17/sapi/apache2handler/php_functions.c
 
 # -- recompile
-RUN . ~/.bashrc && CONFIGURE_OPTS="--with-apxs2=/usr/bin/apxs" phpenv install -v $INSTALL_PHP_VERSION
+RUN . ~/.bashrc && CONFIGURE_OPTS="--with-apxs2=/usr/bin/apxs --with-pdo-pgsql --with-pgsql" phpenv install -v $INSTALL_PHP_VERSION
 
 # -- copy httpd module
 RUN mkdir /root/.anyenv/envs/phpenv/versions/$INSTALL_PHP_VERSION/httpd_modules
