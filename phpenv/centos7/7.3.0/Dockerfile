@@ -62,6 +62,7 @@ RUN mkdir /tmp/libzip && \
 # -- phpenv setup
 RUN git clone https://github.com/riywo/anyenv ~/.anyenv
 RUN echo 'export PATH="$HOME/.anyenv/bin:$PATH"' >> ~/.bashrc
+RUN /root/.anyenv/bin/anyenv install --force-init
 RUN echo 'eval "$(anyenv init -)"' >> ~/.bashrc
 RUN . ~/.bashrc && anyenv install phpenv
 RUN . ~/.bashrc && CONFIGURE_OPTS="--with-apxs2=/usr/bin/apxs --with-pdo-pgsql --with-pgsql --with-freetype-dir=/usr/include/freetype2/freetype --with-imap=/usr/lib64/ --with-imap-ssl" phpenv install -v $INSTALL_PHP_VERSION

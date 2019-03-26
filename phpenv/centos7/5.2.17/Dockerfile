@@ -38,6 +38,7 @@ RUN yum install -y \
 # -- phpenv setup
 RUN git clone https://github.com/riywo/anyenv ~/.anyenv
 RUN echo 'export PATH="$HOME/.anyenv/bin:$PATH"' >> ~/.bashrc
+RUN /root/.anyenv/bin/anyenv install --force-init
 RUN echo 'eval "$(anyenv init -)"' >> ~/.bashrc
 RUN . ~/.bashrc && anyenv install phpenv
 
