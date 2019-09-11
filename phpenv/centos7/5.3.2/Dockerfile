@@ -42,6 +42,7 @@ RUN /root/.anyenv/bin/anyenv install --force-init
 RUN echo 'eval "$(anyenv init -)"' >> ~/.bashrc
 RUN . ~/.bashrc && anyenv install phpenv
 RUN . ~/.bashrc && CONFIGURE_OPTS="--with-apxs2=/usr/bin/apxs --disable-fpm --with-pdo-pgsql --with-pgsql --with-freetype-dir=/usr/include/freetype2/freetype" phpenv install -v $INSTALL_PHP_VERSION
+RUN . ~/.bashrc && phpenv rehash
 
 # -- copy httpd module
 RUN mkdir /root/.anyenv/envs/phpenv/versions/$INSTALL_PHP_VERSION/httpd_modules

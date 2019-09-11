@@ -41,6 +41,7 @@ RUN echo 'export PATH="$HOME/.anyenv/bin:$PATH"' >> ~/.bashrc
 RUN /root/.anyenv/bin/anyenv install --force-init
 RUN echo 'eval "$(anyenv init -)"' >> ~/.bashrc
 RUN . ~/.bashrc && anyenv install phpenv
+RUN . ~/.bashrc && phpenv rehash
 
 # -- direct source download for 5.2.17
 RUN mkdir -p /tmp/php-build/packages
