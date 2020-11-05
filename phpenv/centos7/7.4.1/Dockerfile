@@ -53,7 +53,7 @@ RUN git clone https://github.com/riywo/anyenv ~/.anyenv \
     && /root/.anyenv/bin/anyenv install --force-init \
     && echo 'eval "$(anyenv init -)"' >> ~/.bashrc \
     && . ~/.bashrc && anyenv install phpenv \
-    && . ~/.bashrc && CONFIGURE_OPTS="--with-apxs2=/usr/bin/apxs --with-pdo-pgsql --with-pgsql --with-freetype=/usr/include/freetype2/freetype --with-imap=/usr/lib64/ --with-imap-ssl" phpenv install -v $INSTALL_PHP_VERSION && \
+    && . ~/.bashrc && CONFIGURE_OPTS="--with-apxs2=/usr/bin/apxs --with-pdo-pgsql --with-pgsql --with-freetype=/usr/include/freetype2/freetype --with-imap=/usr/lib64/ --with-imap-ssl --with-kerberos" phpenv install -v $INSTALL_PHP_VERSION && \
     . ~/.bashrc && phpenv rehash
 
 # -- copy modules & misc
