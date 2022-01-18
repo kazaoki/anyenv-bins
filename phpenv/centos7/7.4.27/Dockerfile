@@ -1,6 +1,6 @@
 FROM centos:7
 
-ENV INSTALL_PHP_VERSION="7.4.25"
+ENV INSTALL_PHP_VERSION="7.4.27"
 
 # -- packages setup
 RUN yum install -y epel-release
