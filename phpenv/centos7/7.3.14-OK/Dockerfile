@@ -41,9 +41,9 @@ RUN yum install -y \
         && rm -rf /var/cache/yum/* \
         && yum clean all
 
-# -- for libzip 1.10
-RUN yum install -y http://rpms.famillecollet.com/enterprise/remi-release-7.rpm \
-    && yum install -y libzip5 libzip5-devel --enablerepo=remi \
+# -- for libzip 0.11
+RUN yum install -y http://packages.psychotic.ninja/7/base/x86_64/RPMS/psychotic-release-1.0.0-1.el7.psychotic.noarch.rpm \
+    && yum --enablerepo=psychotic-plus install -y libzip libzip-devel \
     && rm -rf /var/cache/yum/* \
     && yum clean all
 
@@ -53,7 +53,7 @@ RUN git clone https://github.com/riywo/anyenv ~/.anyenv \
     && /root/.anyenv/bin/anyenv install --force-init \
     && echo 'eval "$(anyenv init -)"' >> ~/.bashrc \
     && . ~/.bashrc && anyenv install phpenv \
-    && . ~/.bashrc && CONFIGURE_OPTS="--with-apxs2=/usr/bin/apxs --with-pdo-pgsql --with-pgsql --with-freetype=/usr/include/freetype2/freetype --with-imap=/usr/lib64/ --with-imap-ssl --with-kerberos --enable-opcache" phpenv install -v $INSTALL_PHP_VERSION && \
+    && . ~/.bashrc && CONFIGURE_OPTS="--with-apxs2=/usr/bin/apxs --with-pdo-pgsql --with-pgsql --with-freetype=/usr/include/freetype2/freetype --with-imap=/usr/lib64/ --with-imap-ssl --with-kerberos" phpenv install -v $INSTALL_PHP_VERSION && \
     . ~/.bashrc && phpenv rehash
 
 # -- copy modules & misc
