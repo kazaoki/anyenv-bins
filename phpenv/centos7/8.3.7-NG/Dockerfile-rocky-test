@@ -1,0 +1,203 @@
+# FROM centos:7
+FROM rockylinux:9
+
+ENV INSTALL_PHP_VERSION="8.3.7"
+
+# # -- packages setup
+# RUN yum install -y epel-release
+# RUN yum update -y
+# RUN yum install -y \
+#         git \
+#         bzip2 \
+#         bzip2-devel \
+#         g++ gcc \
+#         libevent-devel \
+#         libxml2-devel \
+#         openssl-devel \
+#         libcurl-devel \
+#         libjpeg-devel \
+#         libpng-devel \
+#         re2c \
+#         libicu-devel \
+#         gcc-c++ \
+#         libmcrypt-devel \
+#         readline-devel \
+#         libtidy-devel \
+#         libxslt-devel \
+#         file \
+#         make \
+#         wget \
+#         autoconf \
+#         patch \
+#         bison \
+#         lemon \
+#         libsql \
+#         httpd-devel \
+#         mariadb-devel \
+#         postgresql-devel \
+#         freetype-devel \
+#         libc-client-devel \
+#         sqlite sqlite-devel \
+#         oniguruma oniguruma-devel \
+#         && rm -rf /var/cache/yum/* \
+#         && yum clean all
+
+dnf config-manager --set-enabled crb
+dnf install -y epel-release
+dnf group install -y "Development Tools"
+
+RUN dnf install -y \
+        gcc \
+        libxml2-devel \
+        bzip2-devel \
+        libcurl-devel \
+        libjpeg-turbo-devel \
+        libpng-devel \
+        freetype-devel \
+        httpd-devel \
+        krb5-devel \
+        openssl-devel \
+        sqlite-devel \
+        oniguruma-devel \
+        postgresql-devel \
+        readline-devel \
+        libtidy-devel \
+        libxslt-devel \
+        libzip-devel \
+
+
+
+
+
+
+dnf install -y   libzip-devel
+
+# # -- Enable C++17 for gcc
+# RUN yum install -y centos-release-scl \
+#     && yum install -y devtoolset-7-gcc-c++ \
+#     && echo "source /opt/rh/devtoolset-7/enable" >> ~/.bashrc \
+#     && rm -rf /var/cache/yum/* \
+#     && yum clean all
+
+# # -- for libzip 0.11
+# RUN yum install -y http://packages.psychotic.ninja/7/base/x86_64/RPMS/psychotic-release-1.0.0-1.el7.psychotic.noarch.rpm \
+#     && yum --enablerepo=psychotic-plus install -y libzip libzip-devel \
+#     && rm -rf /var/cache/yum/* \
+#     && yum clean all
+
+# -- phpenv setup
+
+
+# RUN git clone https://github.com/riywo/anyenv ~/.anyenv \
+#     && echo 'export PATH="$HOME/.anyenv/bin:$PATH"' >> ~/.bashrc \
+#     && /root/.anyenv/bin/anyenv install --force-init \
+#     && echo 'eval "$(anyenv init -)"' >> ~/.bashrc \
+#     && echo 'CFLAGS="-fPIE"' >> ~/.bashrc \
+#     && echo 'LDFLAGS="-pie"' >> ~/.bashrc \
+#     && echo 'CONFIGURE_OPTS="--with-apxs2=/usr/bin/apxs --with-pdo-pgsql --with-pgsql --with-freetype=/usr/include/freetype2/freetype --with-imap=/usr/lib64/ --with-imap-ssl --with-kerberos --enable-opcache"' >> ~/.bashrc \
+#     && . ~/.bashrc \
+#     && anyenv install phpenv \
+#     && phpenv install -v $INSTALL_PHP_VERSION \
+#     && phpenv rehash
+
+
+
+
+rm -fr ~/.anyenv && rm -fr ~/.config
+vi ~/.bashrc
+
+RUN git clone https://github.com/riywo/anyenv ~/.anyenv \
+    && echo 'export PATH="$HOME/.anyenv/bin:$PATH"' >> ~/.bashrc \
+    && . ~/.bashrc \
+    && /root/.anyenv/bin/anyenv install --force-init \
+    && anyenv install phpenv \
+    && echo 'eval "$(anyenv init -)"' >> ~/.bashrc \
+    && . ~/.bashrc \
+
+
+    
+
+    # CONFIGURE_OPTS="--with-apxs2=/usr/bin/apxs --with-pdo-pgsql --with-pgsql --with-freetype=/usr/include/freetype2/freetype --with-imap=/usr/lib64/ --with-imap-ssl --with-kerberos --enable-opcache" phpenv install -v $INSTALL_PHP_VERSION
+    
+    
+    export CFLAGS="-fPIE"
+    export LDFLAGS="-pie"
+    CONFIGURE_OPTS="--with-apxs2=/usr/bin/apxs --with-pdo-pgsql --with-pgsql --with-freetype=/usr/include/freetype2/freetype --with-kerberos --enable-opcache" phpenv install -v $INSTALL_PHP_VERSION
+
+
+
+
+
+
+
+#     && export CC="gcc" \
+#     && export CFLAGS="-fPIC" \
+#     && export LDFLAGS="-pie" \
+#     && export CONFIGURE_OPTS="--with-apxs2=/usr/bin/apxs --with-pdo-pgsql --with-pgsql --with-freetype=/usr/include/freetype2/freetype --with-imap=/usr/lib64/ --with-imap-ssl --with-kerberos --enable-opcache CFLAGS='$CFLAGS' LDFLAGS='$LDFLAGS'" \
+#     && phpenv install -v $INSTALL_PHP_VERSION \
+
+# CFLAGS="-fPIC"
+# LDFLAGS="-pie"
+
+# CONFIGURE_OPTS="--with-apxs2=/usr/bin/apxs --with-pdo-pgsql --with-pgsql --with-freetype=/usr/include/freetype2/freetype --with-imap=/usr/lib64/ --with-imap-ssl --with-kerberos --enable-opcache" phpenv install -v $INSTALL_PHP_VERSION
+# CONFIGURE_OPTS="--with-apxs2=/usr/bin/apxs --with-pdo-pgsql --with-pgsql --with-freetype=/usr/include/freetype2/freetype --with-imap=/usr/lib64/ --with-imap-ssl --with-kerberos --enable-opcache CFLAGS='$CFLAGS' LDFLAGS='$LDFLAGS'" phpenv install -v $INSTALL_PHP_VERSION
+
+
+
+#     CC="gcc" CFLAGS="-fPIC" LDFLAGS="-pie" CONFIGURE_OPTS="--with-apxs2=/usr/bin/apxs --with-pdo-pgsql --with-pgsql --with-freetype=/usr/include/freetype2/freetype --with-imap=/usr/lib64/ --with-imap-ssl --with-kerberos --enable-opcache CFLAGS='$CFLAGS' LDFLAGS='$LDFLAGS'" phpenv install -v $INSTALL_PHP_VERSION \
+#     && phpenv rehash
+
+
+# CONFIGURE_OPTS="--with-apxs2=/usr/bin/apxs --with-pdo-pgsql --with-pgsql --with-freetype=/usr/include/freetype2/freetype --with-imap=/usr/lib64/ --with-imap-ssl --with-kerberos --enable-opcache CFLAGS='$CFLAGS' LDFLAGS='$LDFLAGS'" \
+# && phpenv install -v $INSTALL_PHP_VERSION
+
+# export CFLAGS="-fPIC" \
+# && export LDFLAGS="-pie" \
+# && export INSTALL_PHP_VERSION="8.3.7" \
+# && CONFIGURE_OPTS="--with-apxs2=/usr/bin/apxs --with-pdo-pgsql --with-pgsql --with-freetype=/usr/include/freetype2/freetype --with-imap=/usr/lib64/ --with-imap-ssl --with-kerberos --enable-opcache CFLAGS='$CFLAGS' LDFLAGS='$LDFLAGS'" \
+# && phpenv install -v $INSTALL_PHP_VERSION
+    
+
+
+
+
+
+
+# git clone https://github.com/riywo/anyenv ~/.anyenv \
+# && echo 'export PATH="$HOME/.anyenv/bin:$PATH"' >> ~/.bashrc \
+# && echo 'export CC=gcc' >> ~/.bashrc \
+# && source ~/.bashrc \
+# && /root/.anyenv/bin/anyenv install --force-init \
+# && anyenv install phpenv \
+# && echo 'eval "$(anyenv init -)"' >> ~/.bashrc \
+# && source ~/.bashrc \
+# && export CFLAGS="-fPIC" \
+# && export LDFLAGS="-pie" \
+# && CONFIGURE_OPTS="--with-apxs2=/usr/bin/apxs --with-pdo-pgsql --with-pgsql --with-freetype=/usr/include/freetype2/freetype --with-imap=/usr/lib64/ --with-imap-ssl --with-kerberos --enable-opcache CFLAGS='$CFLAGS' LDFLAGS='$LDFLAGS'" phpenv install -v $INSTALL_PHP_VERSION \
+# && phpenv rehash
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# -- copy modules & misc
+RUN mkdir /root/.anyenv/envs/phpenv/versions/$INSTALL_PHP_VERSION/httpd_modules \
+    && \cp -f /etc/httpd/modules/libphp*.so /root/.anyenv/envs/phpenv/versions/$INSTALL_PHP_VERSION/httpd_modules \
+    && mkdir /root/.anyenv/envs/phpenv/versions/$INSTALL_PHP_VERSION/lib64_modules \
+    && \cp -f /usr/lib64/libzip.so* /root/.anyenv/envs/phpenv/versions/$INSTALL_PHP_VERSION/lib64_modules \
+    && \cp -f /usr/lib64/libonig.so* /root/.anyenv/envs/phpenv/versions/$INSTALL_PHP_VERSION/lib64_modules \
+    && echo 'sendmail_path = /usr/sbin/sendmail -t -i' >> /root/.anyenv/envs/phpenv/versions/$INSTALL_PHP_VERSION/etc/php.ini
+
+# -- staging
+FROM busybox
+COPY --from=0 /root/.anyenv/envs/phpenv/versions/$INSTALL_PHP_VERSION /root/.anyenv/envs/phpenv/versions/$INSTALL_PHP_VERSION
+VOLUME /root/.anyenv/envs/phpenv/versions/$INSTALL_PHP_VERSION
