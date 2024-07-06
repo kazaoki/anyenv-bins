@@ -1,6 +1,6 @@
 FROM ubuntu:24.04
 
-# docker build -t kazaoki/ub-phpenv:8.1.0 .
+# docker build -t kazaoki/ubuntu-phpenv:8.1.0 .
 
 RUN ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
 
